@@ -1,31 +1,8 @@
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
-import { useRef } from 'react'
+import { motion } from 'framer-motion'
 import { Briefcase, Award, Target } from 'lucide-react'
+import GlassSurface from './GlassSurface'
 
 export default function About() {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  })
-
-  // 使用 spring 平滑滚动值
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  })
-
-  // 使用缓动函数让动画更流畅
-  const y = useTransform(smoothProgress, [0, 1], [100, -100], {
-    ease: (t) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2 // easeInOutQuad
-  })
-  const titleY = useTransform(smoothProgress, [0, 0.5], [50, -50], {
-    ease: (t) => 1 - Math.pow(1 - t, 3) // easeOutCubic
-  })
-  const statsY = useTransform(smoothProgress, [0.3, 1], [30, -30], {
-    ease: (t) => t * t * (3 - 2 * t) // smoothstep
-  })
   const experiences = [
     {
       icon: Briefcase,
@@ -59,14 +36,13 @@ export default function About() {
   ]
 
   return (
-    <section ref={ref} id="about" className="relative py-32 px-6">
+    <section id="about" className="relative py-32 px-6">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          style={{ y: titleY, willChange: 'transform' }}
           className="text-center mb-20"
         >
           <h2 className="text-5xl md:text-6xl font-medium mb-4 tracking-tight text-white">
@@ -77,10 +53,7 @@ export default function About() {
           </p>
         </motion.div>
 
-        <motion.div 
-          style={{ y, willChange: 'transform' }}
-          className="grid md:grid-cols-3 gap-4"
-        >
+        <div className="grid md:grid-cols-3 gap-4 md:grid-rows-1">
           {experiences.map((exp, index) => {
             const Icon = exp.icon
             return (
@@ -90,31 +63,41 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="flex"
               >
-                <div className="glass-card p-8 h-full pointer-events-auto">
-                  <div className="mb-6">
-                    <Icon className="w-5 h-5 text-white/70" strokeWidth={1.5} />
+                <GlassSurface 
+                  borderRadius={12}
+                  displace={6}
+                  distortionScale={-160}
+                  redOffset={2}
+                  greenOffset={6}
+                  blueOffset={12}
+                  className="pointer-events-auto flex-1"
+                >
+                  <div className="flex flex-col h-full w-full p-8">
+                    <div className="flex items-center gap-3 mb-6">
+                      <Icon className="w-5 h-5 text-white/70" strokeWidth={1.5} />
+                      <h3 className="text-xl font-medium text-white">
+                        {exp.title}
+                      </h3>
+                    </div>
+                    
+                    <ul className="space-y-2.5 flex-1">
+                      {exp.items.map((item, i) => (
+                        <li
+                          key={i}
+                          className="text-white/50 text-[15px] font-normal leading-relaxed"
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  
-                  <h3 className="text-xl font-medium mb-6 text-white">
-                    {exp.title}
-                  </h3>
-                  
-                  <ul className="space-y-2.5">
-                    {exp.items.map((item, i) => (
-                      <li
-                        key={i}
-                        className="text-white/50 text-[15px] font-normal leading-relaxed"
-                      >
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                </GlassSurface>
               </motion.div>
             )
           })}
-        </motion.div>
+        </div>
 
         {/* Stats - Simplified */}
         <motion.div
@@ -122,7 +105,6 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          style={{ y: statsY, willChange: 'transform' }}
           className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8"
         >
           {[

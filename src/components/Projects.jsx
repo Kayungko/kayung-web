@@ -1,32 +1,10 @@
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Baby, Brain, ChevronRight } from 'lucide-react'
-import { useState, useRef } from 'react'
+import { useState } from 'react'
+import GlassSurface from './GlassSurface'
 
 export default function Projects() {
   const [expandedProject, setExpandedProject] = useState(null)
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  })
-
-  // 使用 spring 平滑滚动值
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  })
-
-  // 使用缓动函数让动画更流畅
-  const y = useTransform(smoothProgress, [0, 1], [80, -80], {
-    ease: (t) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2 // easeInOutQuad
-  })
-  const titleY = useTransform(smoothProgress, [0, 0.5], [60, -60], {
-    ease: (t) => 1 - Math.pow(1 - t, 3) // easeOutCubic
-  })
-  const statusY = useTransform(smoothProgress, [0.5, 1], [40, -40], {
-    ease: (t) => t * t * (3 - 2 * t) // smoothstep
-  })
 
   const projects = [
     {
@@ -89,14 +67,13 @@ export default function Projects() {
   ]
 
   return (
-    <section ref={ref} id="projects" className="relative py-32 px-6">
+    <section id="projects" className="relative py-32 px-6">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          style={{ y: titleY, willChange: 'transform' }}
           className="text-center mb-20"
         >
           <h2 className="text-5xl md:text-6xl font-medium mb-4 tracking-tight text-white">
@@ -107,10 +84,7 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        <motion.div 
-          style={{ y, willChange: 'transform' }}
-          className="space-y-3"
-        >
+        <div className="space-y-3">
           {projects.map((project, index) => {
             const Icon = project.icon
             const isExpanded = expandedProject === project.id
@@ -122,8 +96,16 @@ export default function Projects() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="glass-card overflow-hidden pointer-events-auto"
               >
+                <GlassSurface
+                  borderRadius={12}
+                  displace={8}
+                  distortionScale={-150}
+                  redOffset={3}
+                  greenOffset={8}
+                  blueOffset={15}
+                  className="overflow-hidden pointer-events-auto w-full"
+                >
                 {/* Project Header */}
                 <div
                   onClick={() => setExpandedProject(isExpanded ? null : project.id)}
@@ -193,17 +175,25 @@ export default function Projects() {
                       </h4>
                       <div className="grid md:grid-cols-2 gap-3">
                         {project.modules.map((module, i) => (
-                          <div
+                          <GlassSurface
                             key={i}
-                            className="glass-card p-5"
+                            borderRadius={8}
+                            displace={4}
+                            distortionScale={-180}
+                            redOffset={1}
+                            greenOffset={3}
+                            blueOffset={6}
+                            className="p-5"
                           >
-                            <div className="font-medium text-white mb-1.5 text-[15px]">
-                              {module.name}
+                            <div className="w-full">
+                              <div className="font-medium text-white mb-1.5 text-[15px]">
+                                {module.name}
+                              </div>
+                              <div className="text-sm text-white/50 font-normal leading-relaxed">
+                                {module.desc}
+                              </div>
                             </div>
-                            <div className="text-sm text-white/50 font-normal leading-relaxed">
-                              {module.desc}
-                            </div>
-                          </div>
+                          </GlassSurface>
                         ))}
                       </div>
                     </div>
@@ -246,10 +236,11 @@ export default function Projects() {
                     )}
                   </div>
                 </motion.div>
+                </GlassSurface>
               </motion.div>
             )
           })}
-        </motion.div>
+        </div>
 
         {/* Project Status */}
         <motion.div
@@ -257,19 +248,30 @@ export default function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          style={{ y: statusY, willChange: 'transform' }}
-          className="mt-16 text-center glass-card p-10 pointer-events-auto"
+          className="mt-16"
         >
-          <div className="inline-flex items-center gap-2.5 px-4 py-2 glass-tag rounded-full mb-5">
-            <div className="w-1.5 h-1.5 rounded-full bg-white/40" />
-            <span className="text-sm text-white/60 font-normal">项目状态</span>
-          </div>
-          <p className="text-xl text-white font-normal mb-2">
-            两个项目目前处于<span className="text-white/90 font-medium">规划设计阶段</span>
-          </p>
-          <p className="text-white/50 font-normal text-[15px]">
-            正在进行需求分析、用户研究和技术架构设计
-          </p>
+          <GlassSurface
+            borderRadius={12}
+            displace={5}
+            distortionScale={-170}
+            redOffset={2}
+            greenOffset={5}
+            blueOffset={10}
+            className="text-center p-10 pointer-events-auto"
+          >
+            <div className="w-full">
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 glass-tag rounded-full mb-5">
+                <div className="w-1.5 h-1.5 rounded-full bg-white/40" />
+                <span className="text-sm text-white/60 font-normal">项目状态</span>
+              </div>
+              <p className="text-xl text-white font-normal mb-2">
+                两个项目目前处于<span className="text-white/90 font-medium">规划设计阶段</span>
+              </p>
+              <p className="text-white/50 font-normal text-[15px]">
+                正在进行需求分析、用户研究和技术架构设计
+              </p>
+            </div>
+          </GlassSurface>
         </motion.div>
       </div>
     </section>

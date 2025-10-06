@@ -1,40 +1,11 @@
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
-import { useRef } from 'react'
+import { motion } from 'framer-motion'
 import BlurText from './BlurText'
 import AppleLiquidGlassButton from './AppleLiquidGlassButton'
 
 export default function Hero() {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"]
-  })
-
-  // 使用 spring 平滑滚动值，减少卡顿
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  })
-
-  // 使用缓动函数让动画更流畅
-  const y = useTransform(smoothProgress, [0, 1], [0, -150], {
-    ease: (t) => t * t * (3 - 2 * t) // smoothstep
-  })
-  const opacity = useTransform(smoothProgress, [0, 0.5, 1], [1, 0.8, 0.3], {
-    ease: (t) => 1 - Math.pow(1 - t, 3) // easeOutCubic
-  })
-
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center px-6 py-32">
-      <motion.div 
-        style={{ 
-          y, 
-          opacity,
-          willChange: 'transform, opacity'
-        }}
-        className="max-w-6xl mx-auto text-center relative z-10"
-      >
+    <section className="relative min-h-screen flex items-center justify-center px-6 py-32">
+      <div className="max-w-6xl mx-auto text-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -75,7 +46,7 @@ export default function Hero() {
             </AppleLiquidGlassButton>
           </div>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   )
 }
