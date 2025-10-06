@@ -9,6 +9,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
 }
 
 @layer utilities {
@@ -82,6 +83,31 @@
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
+
+  /* GPU加速工具类 */
+  .gpu-accelerated {
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* 固定元素GPU加速 */
+  .fixed-gpu {
+    position: fixed;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    will-change: transform;
+  }
+
+  /* 滚动容器优化 */
+  .scroll-optimized {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    -webkit-overflow-scrolling: touch;
+    will-change: scroll-position;
+  }
 }
 
 /* Custom scrollbar - Linear style */
@@ -102,15 +128,18 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
-/* 全屏滚动优化 */
+/* 全屏滚动优化 - GPU加速 */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
-/* 隐藏全屏滚动容器的滚动条 */
+/* 隐藏全屏滚动容器的滚动条 + 滚动优化 */
 .snap-y {
   scrollbar-width: none;
   -ms-overflow-style: none;
+  /* 平滑滚动优化 */
+  -webkit-overflow-scrolling: touch;
 }
 
 .snap-y::-webkit-scrollbar {

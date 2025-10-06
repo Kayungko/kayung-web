@@ -50,10 +50,12 @@ const GlassSurface = ({
   const greenChannelRef = useRef(null);
   const blueChannelRef = useRef(null);
   const gaussianBlurRef = useRef(null);
+  const updateScheduledRef = useRef(false);
 
   const isDarkMode = useDarkMode();
 
   const generateDisplacementMap = () => {
+    // 使用 RAF 批处理，避免强制同步布局
     const rect = containerRef.current?.getBoundingClientRect();
     const actualWidth = rect?.width || 400;
     const actualHeight = rect?.height || 200;
@@ -81,8 +83,14 @@ const GlassSurface = ({
     return `data:image/svg+xml,${encodeURIComponent(svgContent)}`;
   };
 
+  // 使用 RAF 防抖，避免频繁触发强制回流
   const updateDisplacementMap = () => {
-    feImageRef.current?.setAttribute('href', generateDisplacementMap());
+    if (updateScheduledRef.current) return;
+    updateScheduledRef.current = true;
+    requestAnimationFrame(() => {
+      updateScheduledRef.current = false;
+      feImageRef.current?.setAttribute('href', generateDisplacementMap());
+    });
   };
 
   useEffect(() => {
@@ -122,8 +130,9 @@ const GlassSurface = ({
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // ResizeObserver 已经异步触发，配合 RAF 防抖，避免强制回流
     const resizeObserver = new ResizeObserver(() => {
-      setTimeout(updateDisplacementMap, 0);
+      updateDisplacementMap();
     });
 
     resizeObserver.observe(containerRef.current);
@@ -135,7 +144,7 @@ const GlassSurface = ({
   }, []);
 
   useEffect(() => {
-    setTimeout(updateDisplacementMap, 0);
+    updateDisplacementMap();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width, height]);
 

@@ -189,17 +189,45 @@ export default function Orb({ hue = 0, hoverIntensity = 0.2, rotateOnHover = tru
 
     const mesh = new Mesh(gl, { geometry, program });
 
+    // 缓存容器边界信息，避免频繁调用 getBoundingClientRect
+    let cachedRect = null;
+    let cachedSize = 0;
+    let cachedCenterX = 0;
+    let cachedCenterY = 0;
+
+    // 在 resize 时更新缓存
+    const updateRectCache = () => {
+      cachedRect = container.getBoundingClientRect();
+      cachedSize = Math.min(cachedRect.width, cachedRect.height);
+      cachedCenterX = cachedRect.width / 2;
+      cachedCenterY = cachedRect.height / 2;
+    };
+
+    // 使用 ResizeObserver 代替 window resize 事件，避免强制回流
+    let resizeScheduled = false;
     function resize() {
       if (!container) return;
-      const dpr = window.devicePixelRatio || 1;
-      const width = container.clientWidth;
-      const height = container.clientHeight;
-      renderer.setSize(width * dpr, height * dpr);
-      gl.canvas.style.width = width + 'px';
-      gl.canvas.style.height = height + 'px';
-      program.uniforms.iResolution.value.set(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height);
+      
+      // 使用 RAF 批处理布局读取，避免强制同步布局
+      if (!resizeScheduled) {
+        resizeScheduled = true;
+        requestAnimationFrame(() => {
+          resizeScheduled = false;
+          const dpr = window.devicePixelRatio || 1;
+          const width = container.clientWidth;
+          const height = container.clientHeight;
+          renderer.setSize(width * dpr, height * dpr);
+          gl.canvas.style.width = width + 'px';
+          gl.canvas.style.height = height + 'px';
+          program.uniforms.iResolution.value.set(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height);
+          // 更新鼠标交互的边界缓存
+          updateRectCache();
+        });
+      }
     }
-    window.addEventListener('resize', resize);
+    
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(container);
     resize();
 
     let targetHover = 0;
@@ -208,20 +236,16 @@ export default function Orb({ hue = 0, hoverIntensity = 0.2, rotateOnHover = tru
     const rotationSpeed = 0.3;
 
     const handleMouseMove = e => {
-      const rect = container.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const width = rect.width;
-      const height = rect.height;
-      const size = Math.min(width, height);
-      const centerX = width / 2;
-      const centerY = height / 2;
-      const uvX = ((x - centerX) / size) * 2.0;
-      const uvY = ((y - centerY) / size) * 2.0;
+      if (!cachedRect) return;
+      // 使用缓存的值，避免强制回流
+      const x = e.clientX - cachedRect.left;
+      const y = e.clientY - cachedRect.top;
+      const uvX = ((x - cachedCenterX) / cachedSize) * 2.0;
+      const uvY = ((y - cachedCenterY) / cachedSize) * 2.0;
       const distance = Math.sqrt(uvX * uvX + uvY * uvY);
 
       // 增大检测半径，让悬停更容易触发
-      const hoverRadius = 1.5; // 从 0.8 增加到 1.5
+      const hoverRadius = 1.5;
       const newHover = distance < hoverRadius ? 1 : 0;
       targetHover = newHover;
     };
@@ -258,7 +282,7 @@ export default function Orb({ hue = 0, hoverIntensity = 0.2, rotateOnHover = tru
 
     return () => {
       cancelAnimationFrame(rafId);
-      window.removeEventListener('resize', resize);
+      resizeObserver.disconnect();
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
       if (container.contains(gl.canvas)) {

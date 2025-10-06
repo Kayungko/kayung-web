@@ -8,7 +8,12 @@ export default function BackgroundEffect() {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const ctx = canvas.getContext('2d')
+    // 启用GPU加速的Canvas渲染
+    const ctx = canvas.getContext('2d', { 
+      alpha: true,
+      desynchronized: true,  // 低延迟渲染
+      willReadFrequently: false  // 优化GPU性能
+    })
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
 
@@ -46,7 +51,10 @@ export default function BackgroundEffect() {
       <canvas
         ref={canvasRef}
         className="absolute inset-0 opacity-40 pointer-events-none"
-        style={{ mixBlendMode: 'overlay', zIndex: 1 }}
+        style={{ 
+          mixBlendMode: 'overlay', 
+          zIndex: 1
+        }}
       />
 
       {/* Ultra-subtle gradient orbs - barely visible */}
