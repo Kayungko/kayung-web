@@ -6,75 +6,47 @@ import GlassSurface from './GlassSurface'
 export default function Projects() {
   const [expandedProject, setExpandedProject] = useState(null)
 
-  const projects = [
-    {
-      id: 'k-project',
-      code: 'K Project',
-      icon: Baby,
-      title: '幼儿发展训练小游戏',
-      subtitle: '医学增强版',
-      description: '基于儿童神经科学、发育心理学及权威医学文献设计的幼儿发展训练应用',
-      highlights: [
-        '6大训练模块',
-        '41篇权威医学文献支持',
-        '多感官整合训练',
-        '家长陪同设计'
-      ],
-      modules: [
-        { name: '软萌触感配对', desc: '触觉-视觉-听觉多感官整合训练' },
-        { name: '小手抓抓乐', desc: '精细运动与因果认知训练' },
-        { name: '亲子找找看', desc: '视觉追踪与社交认知训练' },
-        { name: '轻轻唱童谣', desc: '音乐感知与情绪调节训练' },
-        { name: '玩具躲猫猫', desc: '客体永久性与记忆训练' },
-        { name: '宝宝识世界', desc: '双语看图识物与词汇认知训练' }
-      ],
-      standards: [
-        'AAP 2020年数字媒体指南',
-        'WHO 2019年幼儿身体活动指南',
-        'COPPA 儿童隐私保护法',
-        'GDPR 儿童数据保护条款'
-      ]
-    },
-    {
-      id: 't-project',
-      code: 'T Project',
-      icon: Brain,
-      title: 'TCSA 娱乐化干预训练',
-      subtitle: '老年认知训练系统',
-      description: '针对老年人认知能力的综合训练系统，覆盖6大认知维度',
-      highlights: [
-        '6大认知维度',
-        '22个细分训练模块',
-        '日常场景适配',
-        '无障碍设计'
-      ],
-      modules: [
-        { name: '注意力维度', desc: '警觉性、持续注意、选择性注意、分配注意' },
-        { name: '记忆维度', desc: '瞬时记忆、短期记忆、工作记忆、情景记忆、程序记忆' },
-        { name: '执行功能', desc: '目标设定、抑制控制、认知灵活性、问题解决' },
-        { name: '视空间能力', desc: '视觉搜索、空间定位、深度知觉、视觉运动整合' },
-        { name: '语言能力', desc: '语音知觉、语言理解、词汇提取、语言表达、语用能力' },
-        { name: '社交认知', desc: '情绪识别、共情能力、心理理论、社交决策' }
-      ],
-      features: [
-        '大按钮设计（≥5cm）',
-        '语音控制支持',
-        '可调音量（最大80分贝）',
-        '放大镜功能',
-        '难度自适应'
-      ]
-    }
-  ]
+  const project = {
+    id: 'k-project',
+    code: 'K Project',
+    icon: Baby,
+    title: '幼儿发展训练小游戏',
+    subtitle: '医学增强版',
+    description: '基于儿童神经科学、发育心理学及权威医学文献设计的幼儿发展训练应用',
+    highlights: [
+      '6大训练模块',
+      '41篇权威医学文献支持',
+      '多感官整合训练',
+      '家长陪同设计'
+    ],
+    modules: [
+      { name: '软萌触感配对', desc: '触觉-视觉-听觉多感官整合训练' },
+      { name: '小手抓抓乐', desc: '精细运动与因果认知训练' },
+      { name: '亲子找找看', desc: '视觉追踪与社交认知训练' },
+      { name: '轻轻唱童谣', desc: '音乐感知与情绪调节训练' },
+      { name: '玩具躲猫猫', desc: '客体永久性与记忆训练' },
+      { name: '宝宝识世界', desc: '双语看图识物与词汇认知训练' }
+    ],
+    standards: [
+      'AAP 2020年数字媒体指南',
+      'WHO 2019年幼儿身体活动指南',
+      'COPPA 儿童隐私保护法',
+      'GDPR 儿童数据保护条款'
+    ]
+  }
+  
+  const Icon = project.icon
+  const isExpanded = expandedProject === project.id
 
   return (
-    <section id="projects" className="relative py-32 px-6">
-      <div className="max-w-5xl mx-auto">
+    <div id="projects" className="relative h-full flex items-start justify-center px-6 pt-32 pb-16 overflow-y-auto">
+      <div className="max-w-5xl mx-auto w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className="text-center mb-12"
         >
           <h2 className="text-5xl md:text-6xl font-medium mb-4 tracking-tight text-white">
             研发项目
@@ -84,19 +56,12 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        <div className="space-y-3">
-          {projects.map((project, index) => {
-            const Icon = project.icon
-            const isExpanded = expandedProject === project.id
-
-            return (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
                 <GlassSurface
                   borderRadius={12}
                   displace={8}
@@ -104,54 +69,57 @@ export default function Projects() {
                   redOffset={3}
                   greenOffset={8}
                   blueOffset={15}
-                  className="overflow-hidden pointer-events-auto w-full"
+                  className="overflow-hidden pointer-events-auto w-full [&>div]:!justify-start"
                 >
                 {/* Project Header */}
                 <div
                   onClick={() => setExpandedProject(isExpanded ? null : project.id)}
-                  className="p-8 cursor-pointer flex items-start gap-6 group"
+                  className="p-8 cursor-pointer flex items-start gap-6 group w-full"
                 >
                   {/* Icon */}
                   <div className="w-10 h-10 rounded-lg linear-border flex items-center justify-center flex-shrink-0 mt-1">
                     <Icon className="w-5 h-5 text-white/60" strokeWidth={1.5} />
                   </div>
 
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <div className="text-xs text-white/40 mb-1.5 font-mono tracking-wide uppercase">
-                          {project.code}
-                        </div>
-                        <h3 className="text-2xl font-medium text-white mb-1.5 tracking-tight">
-                          {project.title}
-                        </h3>
-                        <p className="text-[15px] text-white/40 font-normal">
-                          {project.subtitle}
-                        </p>
+                  {/* Content - Vertical Stack */}
+                  <div className="flex-1 min-w-0 space-y-4">
+                    {/* Row 1: Project Code + Arrow */}
+                    <div className="flex items-center justify-between">
+                      <div className="text-xs text-white/40 font-mono tracking-wide uppercase">
+                        {project.code}
                       </div>
                       <motion.div
                         animate={{ rotate: isExpanded ? 90 : 0 }}
                         transition={{ duration: 0.3 }}
-                        className="ml-4"
                       >
                         <ChevronRight className="w-5 h-5 text-white/30" strokeWidth={1.5} />
                       </motion.div>
                     </div>
 
-                    <p className="text-white/50 mb-5 leading-relaxed font-normal text-[15px]">
+                    {/* Row 2: Title + Subtitle (same line) */}
+                    <div>
+                      <h3 className="text-2xl font-medium text-white tracking-tight inline">
+                        {project.title}
+                      </h3>
+                      <span className="text-[15px] text-white/40 font-normal ml-3">
+                        {project.subtitle}
+                      </span>
+                    </div>
+
+                    {/* Row 3: Description */}
+                    <p className="text-white/50 leading-relaxed font-normal text-[15px]">
                       {project.description}
                     </p>
 
-                    {/* Highlights */}
-                    <div className="flex flex-wrap gap-2">
+                    {/* Row 4: Highlights Grid (4 columns) */}
+                    <div className="grid grid-cols-4 gap-3">
                       {project.highlights.map((highlight, i) => (
-                        <span
+                        <div
                           key={i}
-                          className="px-3 py-1.5 text-xs text-white/50 glass-tag"
+                          className="px-4 py-3 text-sm text-white/60 border border-white/10 rounded-lg text-center backdrop-blur-sm bg-white/5"
                         >
                           {highlight}
-                        </span>
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -167,13 +135,13 @@ export default function Projects() {
                   transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
                   className="overflow-hidden"
                 >
-                  <div className="px-8 pb-8 border-t border-white/[0.06] pt-8">
+                  <div className="px-8 pb-8 border-t border-white/[0.06] pt-6">
                     {/* Modules */}
-                    <div className="mb-8">
-                      <h4 className="text-lg font-medium text-white mb-4">
+                    <div className="mb-6">
+                      <h4 className="text-lg font-medium text-white mb-3.5">
                         训练模块
                       </h4>
-                      <div className="grid md:grid-cols-2 gap-3">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                         {project.modules.map((module, i) => (
                           <GlassSurface
                             key={i}
@@ -183,10 +151,10 @@ export default function Projects() {
                             redOffset={1}
                             greenOffset={3}
                             blueOffset={6}
-                            className="p-5"
+                            className="p-4"
                           >
                             <div className="w-full">
-                              <div className="font-medium text-white mb-1.5 text-[15px]">
+                              <div className="font-medium text-white mb-1 text-[15px]">
                                 {module.name}
                               </div>
                               <div className="text-sm text-white/50 font-normal leading-relaxed">
@@ -201,17 +169,17 @@ export default function Projects() {
                     {/* Standards or Features */}
                     {project.standards && (
                       <div>
-                        <h4 className="text-lg font-medium text-white mb-4">
+                        <h4 className="text-lg font-medium text-white mb-3.5">
                           合规标准
                         </h4>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2">
                           {project.standards.map((standard, i) => (
-                            <span
+                            <div
                               key={i}
-                              className="px-4 py-2.5 text-sm text-white/60 glass-tag rounded-lg"
+                              className="px-3 py-2 text-sm text-white/60 glass-tag rounded-lg text-center"
                             >
                               {standard}
-                            </span>
+                            </div>
                           ))}
                         </div>
                       </div>
@@ -219,14 +187,14 @@ export default function Projects() {
 
                     {project.features && (
                       <div>
-                        <h4 className="text-lg font-medium text-white mb-4">
+                        <h4 className="text-lg font-medium text-white mb-3.5">
                           无障碍特性
                         </h4>
-                        <div className="grid md:grid-cols-3 gap-2">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
                           {project.features.map((feature, i) => (
                             <div
                               key={i}
-                              className="px-4 py-3 text-sm text-white/60 glass-tag rounded-lg text-center"
+                              className="px-3 py-2.5 text-sm text-white/60 glass-tag rounded-lg text-center"
                             >
                               {feature}
                             </div>
@@ -237,43 +205,8 @@ export default function Projects() {
                   </div>
                 </motion.div>
                 </GlassSurface>
-              </motion.div>
-            )
-          })}
-        </div>
-
-        {/* Project Status */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-16"
-        >
-          <GlassSurface
-            borderRadius={12}
-            displace={5}
-            distortionScale={-170}
-            redOffset={2}
-            greenOffset={5}
-            blueOffset={10}
-            className="text-center p-10 pointer-events-auto"
-          >
-            <div className="w-full">
-              <div className="inline-flex items-center gap-2.5 px-4 py-2 glass-tag rounded-full mb-5">
-                <div className="w-1.5 h-1.5 rounded-full bg-white/40" />
-                <span className="text-sm text-white/60 font-normal">项目状态</span>
-              </div>
-              <p className="text-xl text-white font-normal mb-2">
-                两个项目目前处于<span className="text-white/90 font-medium">规划设计阶段</span>
-              </p>
-              <p className="text-white/50 font-normal text-[15px]">
-                正在进行需求分析、用户研究和技术架构设计
-              </p>
-            </div>
-          </GlassSurface>
         </motion.div>
       </div>
-    </section>
+    </div>
   )
 }

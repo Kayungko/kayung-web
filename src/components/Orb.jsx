@@ -230,8 +230,10 @@ export default function Orb({ hue = 0, hoverIntensity = 0.2, rotateOnHover = tru
       targetHover = 0;
     };
 
-    container.addEventListener('mousemove', handleMouseMove);
-    container.addEventListener('mouseleave', handleMouseLeave);
+    // 监听 document 级别的鼠标移动，而不是容器本身
+    // 这样可以穿透上层元素接收事件
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseleave', handleMouseLeave);
 
     let rafId;
     const update = t => {
@@ -257,8 +259,8 @@ export default function Orb({ hue = 0, hoverIntensity = 0.2, rotateOnHover = tru
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener('resize', resize);
-      container.removeEventListener('mousemove', handleMouseMove);
-      container.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseleave', handleMouseLeave);
       if (container.contains(gl.canvas)) {
         container.removeChild(gl.canvas);
       }

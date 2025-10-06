@@ -36,14 +36,14 @@ export default function About() {
   ]
 
   return (
-    <section id="about" className="relative py-32 px-6">
-      <div className="max-w-6xl mx-auto">
+    <div id="about" className="relative h-full flex items-center justify-center px-6 pt-32 pb-16">
+      <div className="max-w-6xl mx-auto w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className="text-center mb-8"
         >
           <h2 className="text-5xl md:text-6xl font-medium mb-4 tracking-tight text-white">
             专业能力
@@ -105,7 +105,7 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8"
+          className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-8"
         >
           {[
             { label: '研发项目', value: '4+' },
@@ -127,6 +127,6 @@ export default function About() {
           ))}
         </motion.div>
       </div>
-    </section>
+    </div>
   )
 }

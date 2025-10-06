@@ -102,3 +102,18 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
+/* 全屏滚动优化 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 隐藏全屏滚动容器的滚动条 */
+.snap-y {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.snap-y::-webkit-scrollbar {
+  display: none;
+}
+

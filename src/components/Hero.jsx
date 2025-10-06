@@ -4,7 +4,7 @@ import AppleLiquidGlassButton from './AppleLiquidGlassButton'
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-6 py-32">
+    <div className="relative h-full flex items-center justify-center px-6">
       <div className="max-w-6xl mx-auto text-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -47,6 +47,6 @@ export default function Hero() {
           </div>
         </motion.div>
       </div>
-    </section>
+    </div>
   )
 }

@@ -32,14 +32,14 @@ export default function Contact() {
   ]
 
   return (
-    <section id="contact" className="relative py-32 px-6">
-      <div className="max-w-4xl mx-auto">
+    <div id="contact" className="relative h-full flex items-center px-6 py-16">
+      <div className="max-w-4xl mx-auto w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className="text-center mb-8"
         >
           <h2 className="text-5xl md:text-6xl font-medium mb-4 tracking-tight text-white">
             联系方式
@@ -49,7 +49,7 @@ export default function Contact() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-3 mb-12">
+        <div className="grid md:grid-cols-2 gap-3 mb-8">
           {contacts.map((contact, index) => {
             const Icon = contact.icon
             return (
@@ -152,6 +152,6 @@ export default function Contact() {
           </div>
         </motion.div>
       </div>
-    </section>
+    </div>
   )
 }
