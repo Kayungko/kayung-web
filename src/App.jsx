@@ -12,9 +12,9 @@ function App() {
       <div className="relative min-h-screen">
         <BackgroundEffect />
         
-        {/* Orb 背景层 */}
+        {/* Orb 背景层 - 只在首屏显示 */}
         <div 
-          className="fixed inset-0 z-[8] flex items-center justify-center pointer-events-none"
+          className="absolute top-0 left-0 w-full h-screen z-[8] flex items-center justify-center pointer-events-none"
         >
           <div 
             className="pointer-events-none"

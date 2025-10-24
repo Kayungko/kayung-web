@@ -46,7 +46,7 @@ export default function BackgroundEffect() {
   }, [])
 
   return (
-    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+    <div className="absolute top-0 left-0 w-full h-screen z-0 overflow-hidden pointer-events-none">
       {/* Noise texture canvas - Reflect style */}
       <canvas
         ref={canvasRef}
