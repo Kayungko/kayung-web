@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Baby, Brain, ChevronRight } from 'lucide-react'
 import { useState } from 'react'
-import GlassSurface from './GlassSurface'
+import SimpleGlassCard from './SimpleGlassCard'
 
 export default function Projects() {
   const [expandedProject, setExpandedProject] = useState(null)
@@ -62,14 +62,10 @@ export default function Projects() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-                <GlassSurface
-                  borderRadius={12}
-                  displace={8}
-                  distortionScale={-150}
-                  redOffset={3}
-                  greenOffset={8}
-                  blueOffset={15}
-                  className="overflow-hidden pointer-events-auto w-full [&>div]:!justify-start"
+                <SimpleGlassCard
+                  borderRadius="rounded-xl"
+                  className="overflow-hidden pointer-events-auto w-full"
+                  interactive={false}
                 >
                 {/* Project Header */}
                 <div
@@ -143,14 +139,9 @@ export default function Projects() {
                       </h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                         {project.modules.map((module, i) => (
-                          <GlassSurface
+                          <SimpleGlassCard
                             key={i}
-                            borderRadius={8}
-                            displace={4}
-                            distortionScale={-180}
-                            redOffset={1}
-                            greenOffset={3}
-                            blueOffset={6}
+                            borderRadius="rounded-lg"
                             className="p-4"
                           >
                             <div className="w-full">
@@ -161,7 +152,7 @@ export default function Projects() {
                                 {module.desc}
                               </div>
                             </div>
-                          </GlassSurface>
+                          </SimpleGlassCard>
                         ))}
                       </div>
                     </div>
@@ -204,7 +195,7 @@ export default function Projects() {
                     )}
                   </div>
                 </motion.div>
-                </GlassSurface>
+                </SimpleGlassCard>
         </motion.div>
       </div>
     </div>

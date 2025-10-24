@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Mail, Github, Linkedin, MessageCircle, ArrowUpRight } from 'lucide-react'
 import AppleLiquidGlassButton from './AppleLiquidGlassButton'
-import GlassSurface from './GlassSurface'
+import SimpleGlassCard from './SimpleGlassCard'
 
 export default function Contact() {
   const contacts = [
@@ -60,13 +60,8 @@ export default function Contact() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
               >
-                <GlassSurface
-                  borderRadius={12}
-                  displace={6}
-                  distortionScale={-165}
-                  redOffset={2}
-                  greenOffset={6}
-                  blueOffset={12}
+                <SimpleGlassCard
+                  borderRadius="rounded-xl"
                   className="pointer-events-auto"
                 >
                   <a
@@ -90,7 +85,7 @@ export default function Contact() {
 
                     <ArrowUpRight className="w-4 h-4 text-white/20 opacity-0 group-hover:opacity-100 transition-opacity" strokeWidth={1.5} />
                   </a>
-                </GlassSurface>
+                </SimpleGlassCard>
               </motion.div>
             )
           })}
@@ -103,13 +98,8 @@ export default function Contact() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <GlassSurface
-            borderRadius={16}
-            displace={8}
-            distortionScale={-155}
-            redOffset={3}
-            greenOffset={8}
-            blueOffset={15}
+          <SimpleGlassCard
+            borderRadius="rounded-2xl"
             className="p-12 text-center pointer-events-auto"
           >
             <div className="w-full">
@@ -134,7 +124,7 @@ export default function Contact() {
                 </AppleLiquidGlassButton>
               </div>
             </div>
-          </GlassSurface>
+          </SimpleGlassCard>
         </motion.div>
 
         {/* Note */}

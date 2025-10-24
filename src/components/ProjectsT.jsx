@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Brain, ChevronRight } from 'lucide-react'
 import { useState } from 'react'
-import GlassSurface from './GlassSurface'
+import SimpleGlassCard from './SimpleGlassCard'
 
 export default function ProjectsT() {
   const [expandedProject, setExpandedProject] = useState(null)
@@ -48,14 +48,10 @@ export default function ProjectsT() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <GlassSurface
-            borderRadius={12}
-            displace={8}
-            distortionScale={-150}
-            redOffset={3}
-            greenOffset={8}
-            blueOffset={15}
-            className="overflow-hidden pointer-events-auto w-full [&>div]:!justify-start"
+          <SimpleGlassCard
+            borderRadius="rounded-xl"
+            className="overflow-hidden pointer-events-auto w-full"
+            interactive={false}
           >
             {/* Project Header */}
             <div
@@ -129,14 +125,9 @@ export default function ProjectsT() {
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {project.modules.map((module, i) => (
-                      <GlassSurface
+                      <SimpleGlassCard
                         key={i}
-                        borderRadius={8}
-                        displace={4}
-                        distortionScale={-180}
-                        redOffset={1}
-                        greenOffset={3}
-                        blueOffset={6}
+                        borderRadius="rounded-lg"
                         className="p-4"
                       >
                         <div className="w-full">
@@ -147,7 +138,7 @@ export default function ProjectsT() {
                             {module.desc}
                           </div>
                         </div>
-                      </GlassSurface>
+                      </SimpleGlassCard>
                     ))}
                   </div>
                 </div>
@@ -172,7 +163,7 @@ export default function ProjectsT() {
                 )}
               </div>
             </motion.div>
-          </GlassSurface>
+          </SimpleGlassCard>
         </motion.div>
 
         {/* Project Status */}
@@ -183,13 +174,8 @@ export default function ProjectsT() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-12"
         >
-          <GlassSurface
-            borderRadius={12}
-            displace={5}
-            distortionScale={-170}
-            redOffset={2}
-            greenOffset={5}
-            blueOffset={10}
+          <SimpleGlassCard
+            borderRadius="rounded-xl"
             className="text-center p-10 pointer-events-auto"
           >
             <div className="w-full">
@@ -204,7 +190,7 @@ export default function ProjectsT() {
                 正在进行需求分析、用户研究和技术架构设计
               </p>
             </div>
-          </GlassSurface>
+          </SimpleGlassCard>
         </motion.div>
       </div>
     </div>

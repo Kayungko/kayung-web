@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false)
+  const location = useLocation()
+  const navigate = useNavigate()
+  const isHome = location.pathname === '/'
 
   useEffect(() => {
     const handleScroll = () => {
@@ -12,8 +16,18 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const scrollToSection = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  const handleNavClick = (section) => {
+    if (!isHome) {
+      // 如果不在首页，先导航到首页
+      navigate('/')
+      // 等待导航完成后滚动
+      setTimeout(() => {
+        document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' })
+      }, 100)
+    } else {
+      // 如果在首页，直接滚动
+      document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   return (
@@ -27,20 +41,42 @@ export default function Navigation() {
     >
       <div className="max-w-6xl mx-auto px-6 py-5">
         <div className="flex items-center justify-between">
-          <div className="text-[15px] font-medium text-white">
+          <Link 
+            to="/"
+            className="text-[15px] font-medium text-white hover:text-white/80 transition-colors"
+          >
             像素治愈所
-          </div>
+          </Link>
 
           <div className="flex gap-8">
-            {['关于', '项目', '联系'].map((item) => (
-              <button
-                key={item}
-                onClick={() => scrollToSection(item === '关于' ? 'about' : item === '项目' ? 'projects' : 'contact')}
-                className="text-white/50 hover:text-white transition-colors duration-200 text-[14px] font-normal"
-              >
-                {item}
-              </button>
-            ))}
+            <button
+              onClick={() => handleNavClick('about')}
+              className="text-white/50 hover:text-white transition-colors duration-200 text-[14px] font-normal"
+            >
+              关于
+            </button>
+            <button
+              onClick={() => handleNavClick('projects')}
+              className="text-white/50 hover:text-white transition-colors duration-200 text-[14px] font-normal"
+            >
+              项目
+            </button>
+            <Link
+              to="/blog"
+              className={`transition-colors duration-200 text-[14px] font-normal ${
+                location.pathname.startsWith('/blog') 
+                  ? 'text-white' 
+                  : 'text-white/50 hover:text-white'
+              }`}
+            >
+              文章
+            </Link>
+            <button
+              onClick={() => handleNavClick('contact')}
+              className="text-white/50 hover:text-white transition-colors duration-200 text-[14px] font-normal"
+            >
+              联系
+            </button>
           </div>
         </div>
       </div>

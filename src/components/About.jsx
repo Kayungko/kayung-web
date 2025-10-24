@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Briefcase, Award, Target } from 'lucide-react'
-import GlassSurface from './GlassSurface'
+import SimpleGlassCard from './SimpleGlassCard'
 
 export default function About() {
   const experiences = [
@@ -65,16 +65,11 @@ export default function About() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="flex"
               >
-                <GlassSurface 
-                  borderRadius={12}
-                  displace={6}
-                  distortionScale={-160}
-                  redOffset={2}
-                  greenOffset={6}
-                  blueOffset={12}
-                  className="pointer-events-auto flex-1"
+                <SimpleGlassCard 
+                  borderRadius="rounded-xl"
+                  className="pointer-events-auto flex-1 p-8"
                 >
-                  <div className="flex flex-col h-full w-full p-8">
+                  <div className="flex flex-col h-full w-full">
                     <div className="flex items-center gap-3 mb-6">
                       <Icon className="w-5 h-5 text-white/70" strokeWidth={1.5} />
                       <h3 className="text-xl font-medium text-white">
@@ -93,7 +88,7 @@ export default function About() {
                       ))}
                     </ul>
                   </div>
-                </GlassSurface>
+                </SimpleGlassCard>
               </motion.div>
             )
           })}
